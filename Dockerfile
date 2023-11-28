@@ -6,7 +6,7 @@ RUN go mod init build && \
     go build -o /bin/easy-novnc github.com/geek1011/easy-novnc
 
 # Get TigerVNC and Supervisor for isolating the container.
-FROM debian:bullseye
+FROM debian:bullseye-slim
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends openbox tigervnc-standalone-server supervisor gosu && \
     rm -rf /var/lib/apt/lists && \
@@ -14,11 +14,11 @@ RUN apt-get update -y && \
 
 # Get all of the remaining dependencies for the OS, VNC, and Cura (additionally Firefox-ESR to sign-in to Ultimaker if you'd like).
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends openscad lxterminal nano wget openssh-client rsync ca-certificates xdg-utils htop tar xzip gzip bzip2 zip unzip && \
+    apt-get install -y --no-install-recommends openscad qterminal nano wget openssh-client rsync ca-certificates xdg-utils htop tar xzip gzip bzip2 zip unzip && \
     rm -rf /var/lib/apt/lists
 
 RUN apt update && apt install -y --no-install-recommends --allow-unauthenticated \
-        lxde gtk2-engines-murrine gnome-themes-standard gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
+        lxqt gtk2-engines-murrine gnome-themes-standard gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
         freeglut3 libgtk2.0-dev libwxgtk3.0-gtk3-dev libwx-perl libxmu-dev libgl1-mesa-glx libgl1-mesa-dri  \
         xdg-utils locales locales-all pcmanfm jq curl git firefox-esr qtbase5-dev \
     && apt autoclean -y \
@@ -38,7 +38,7 @@ RUN chmod +x /cura/get_release_info.sh \
   && /cura/${curaReleaseName} --appimage-extract \
   # Below, we adjust the platform theme to GTK3 per https://github.com/Ultimaker/Cura/issues/12266#issuecomment-1274861668.
   # Without this, the file dialog is never functional/visible with Cura due to the uncompiled App Image.
-  && sed -i 's/QT_QPA_PLATFORMTHEME=xdgdesktopportal/QT_QPA_PLATFORMTHEME=gtk3/' /cura/squashfs-root/AppRun \
+  # && sed -i 's/QT_QPA_PLATFORMTHEME=xdgdesktopportal/QT_QPA_PLATFORMTHEME=gtk3/' /cura/squashfs-root/AppRun \
   && rm /cura/${curaReleaseName} \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get autoclean \

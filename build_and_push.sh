@@ -1,6 +1,6 @@
 #!/bin/bash
   
-image="mikeah/cura-novnc"  
+image="ernold11/cura-novnc"  
   
 # Set the timestamp
 timestamp=$(date +%Y.%m.%d.%H%M%S)  
