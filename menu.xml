@@ -3,7 +3,7 @@
     <menu id="root-menu" label="Openbox 3">
         <item label="Cura">
             <action name="Execute">
-                <execute>/cura/squashfs-root/AppRun</execute>
+                <execute>/cura/squashfs-root/AppRun -platformtheme gtk3</execute>
             </action>
         </item>
         <item label="Terminal">
